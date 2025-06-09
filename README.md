@@ -10,7 +10,7 @@ Built as part of a Python Developer assignment (1+ years experience level).
 - View all upcoming fitness classes (`/classes`)
 - Book a slot in a class (`/book`)
 - View all bookings by client email (`/bookings`)
-- Timezone-aware: All classes are stored in **UTC**, displayed in **IST**
+- Timezone-aware: All classes are stored in **UTC**, displayed in **user's local system timezone**
 - Input validation, error handling, and logging included
 
 ---
@@ -27,30 +27,34 @@ Built as part of a Python Developer assignment (1+ years experience level).
 
 ## 📂 Project Structure
 
+```text
 fitness_booking_api/
-├── app.py # Main Flask application
-├── create_db.py # Seed data with class timings
-├── templates/ # HTML templates (not used in API mode)
-├── static/ # Optional CSS/JS (if any)
-├── README.md # Project instructions
-└── requirements.txt # Python dependencies
+├── app.py               # Main Flask application
+├── create_db.py         # Seed data script
+├── templates/           # HTML templates (optional frontend)
+│   └── base.html        # Example template
+├── static/              # Optional static files (CSS/JS)
+├── requirements.txt     # Project dependencies
+└── README.md            # Project documentation
+```
 
 ## Install Dependencies:
 
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
 
 
 ## Run The Application:
 
-- python app.py
-The server will start on: http://127.0.0.1:5000
+```python app.py```
+The server will start on : http://127.0.0.1:5000
 
 ## 🧪 API EndPoints:
 
-📘 1. Get All Classes
+- 1. **Get All Classes**
 GET /classes
 
+```text
 Response : 
 [
   {
@@ -61,31 +65,37 @@ Response :
     "available_slots": 10
   }
 ]
+```
 
 
-📘 2. Book A Class
+- 2. **Book A Class**
 GET /book
 
+```text
 Response (JSON)
 {
   "class_id": 1,
   "client_name": "Riya Sharma",
   "client_email": "riya@example.com"
 }
+```
 
-
+```text
 Response (Success)
 {
   "message": "Booking successful for Yoga at 2025-06-09T18:00:00+05:30"
 }
+```
 
-
+```text
 Response (Error)
 {
   "error": "No slots available for this class"
 }
+```
 
-3. Get Bookings By Email
+
+- 3. **Get Bookings By Email**
 GET /bookings?email=riya@example.com
 
 Response
@@ -112,7 +122,7 @@ Response
 
 
 ## 📧 Author
-Pragya Bharti Sharama
-Email: pbssharma.1998@gmail.com
-GitHub: [your-username](https://github.com/PBhartiSharma)
+- Name: Pragya Bharti Sharama
+- Email: pbssharma.1998@gmail.com
+- GitHub: [PBhartiSharma](https://github.com/PBhartiSharma)
 
