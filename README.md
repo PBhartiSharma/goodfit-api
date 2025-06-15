@@ -118,7 +118,7 @@ Response
 
 ## 📹 Loom Video Walkthrough
 
-👉 []
+👉 [https://www.loom.com/share/c3df15a15e5845e68fe14030d347e9a5]
 
 
 ## 📧 Author
