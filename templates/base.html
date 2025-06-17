@@ -1,3 +1,6 @@
+ <!-- npx tailwindcss -i ./src/input.css -o ./static/output.css --watch -->
+
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +17,55 @@
 
 <!-- JavaScript to convert UTC datetime strings to user's local time -->
 <script>
+
+
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `
+        px-4 py-2 rounded shadow text-sm font-medium transition-all duration-500 ease-in-out
+        ${type === 'error'
+            ? 'bg-red-100 text-red-800 border border-red-200'
+            : 'bg-green-100 text-green-800 border border-green-200'}
+    `;
+    toast.textContent = message;
+
+    const container = document.getElementById('toastContainer');
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-x-5');
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+}
+
+
+// Load user bookings
+function loadUserBookings() {
+    const email = document.getElementById('bookingEmail').value.trim();
+    
+    if (!email) {
+        console.log('checking bro')
+        showToast('Please enter your email address', 'error');
+        return;
+    }
+    
+    const encodedEmail = encodeURIComponent(email);
+    window.location.href = `/bookings/${encodedEmail}`;
+}
+
+
+// Show/hide bookings modal
+function showBookingsModal() {
+    document.getElementById('bookingsModal').classList.remove('hidden');
+}
+
+function hideBookingsModal() {
+    document.getElementById('bookingsModal').classList.add('hidden');
+    document.getElementById('userBookings').innerHTML = '';
+    document.getElementById('bookingEmail').value = '';
+}
+
+
   document.addEventListener("DOMContentLoaded", () => {
     const elements = document.querySelectorAll('.datetime');
     elements.forEach(el => {
@@ -36,18 +88,60 @@
 </script>
 
 
-
 <body class="bg-white">
+<div id="toastContainer" class="fixed top-5 right-5 z-50 space-y-2"></div>
+ {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          {% for category, message in messages %}
+            showToast("{{ message }}", "{{ category }}");
+          {% endfor %}
+        });
+      </script>
+    {% endif %}
+  {% endwith %}
+<!-- Bookings Modal -->
+  <div id="bookingsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+      <div class="flex items-center justify-center min-h-screen px-4">
+          <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+              <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-lg font-medium text-gray-900">My Bookings</h3>
+                  <button onclick="hideBookingsModal()" class="text-gray-400 hover:text-gray-600">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                  </button>
+              </div>
+              
+              <div class="mb-4">
+                  <input type="email" id="bookingEmail" placeholder="Enter your email address" 
+                          class="w-full px-3 py-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                  <button onclick="loadUserBookings()" 
+                          class="w-full mt-2 bg-primary text-white px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 transition-colors">
+                      Load My Bookings
+                  </button>
+              </div>
+              
+              <div id="userBookings" class="max-h-64 overflow-y-auto">
+                  <!-- User bookings will be loaded here -->
+              </div>
+          </div>
+      </div>
+  </div>
+    
+
+
 <!-- Header -->
     <header class="bg-white shadow-sm border-b mb-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <h1 class="text-2xl font-bold text-indigo-600">💪 FitStudio</h1>
+                    <a href="/" class="text-2xl font-bold text-indigo-600">💪 FitStudio</a>
                     <span class="ml-3 text-gray-500">Booking Dashboard</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition-colors">
+                    <button onclick="showBookingsModal()" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600 transition-colors">
                         My Bookings
                     </button>
                 </div>
