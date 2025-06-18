@@ -3,6 +3,8 @@ from markupsafe import escape
 import sqlite3
 import logging
 import create_db
+import re
+
 
 
 # Configure logging with timestamps, level, and message, output to file app.log
@@ -21,6 +23,13 @@ logging.getLogger('flask').setLevel(logging.WARNING)
 
 app = Flask(__name__)
 app.secret_key = '34A67CVB78O8'
+
+
+# Email validation function
+def is_valid_email(email):
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(pattern, email) is not None
+
 
 
 @app.route('/')
@@ -99,6 +108,12 @@ def book():
                 logging.warning(f"Booking POST missing fields: class_id={class_id}, client_email={client_email}")
                 flash("All fields are required", "error")
                 return redirect(url_for('classes'))
+            
+            # Check email format
+            if not is_valid_email(client_email):
+                flash('Invalid email format. Please enter a valid email.','error')
+                return redirect(url_for('book', class_id=class_id))
+
 
             conn = sqlite3.connect('fitness.db')
             cursor = conn.cursor()

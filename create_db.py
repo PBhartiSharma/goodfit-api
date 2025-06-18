@@ -51,7 +51,7 @@ def init_db():
                 ('Yoga', '2025-06-08 10:00:00', 'Ravi Sir', 5, 5),
                 ('Zumba', '2025-06-08 18:00:00', 'Asha Mam', 8, 8),
                 ('HIIT', '2025-06-09 07:00:00', 'Meera Mam', 10, 10),
-                ('Strength Training', '2025-06-10 06:30:00', 'Nihal Sir', 5, 5),
+                ('Strength Training', '2025-06-10 06:30:00', 'Nihal Sir', 2, 2),
                 ('Dance Cardio', '2025-06-11 17:00:00', 'Sneha Mam', 5, 5),
             ]
             
